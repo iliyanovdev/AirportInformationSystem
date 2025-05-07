@@ -1,0 +1,35 @@
+# Visual Studio user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output directories
+bin/
+obj/
+debug/
+release/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Local database and backups
+*.mdf
+*.ldf
+*.dbmdl
+*.bak
+
+# Log files
+*.log
+
+# Secret configuration files
+secrets.json
+
+# Publish settings
+*.publish.xml
+
+# Local app settings (optional, depending on your setup)
+appsettings.Development.json
+appsettings.Local.json

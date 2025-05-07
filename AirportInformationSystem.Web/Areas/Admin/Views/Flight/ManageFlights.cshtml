@@ -1,0 +1,123 @@
+﻿@using AirportInformationSystem.Web.ViewModels.Flight.Admin
+@model FlightAdminFilterViewModel
+
+@{
+	ViewData["Title"] = "Manage Flights";
+}
+
+<div class="container mt-4">
+	<h2 class="mb-4">Manage Flights</h2>
+
+	<div class="card shadow-sm">
+		<div class="card-body">
+			<form asp-action="ManageFlights" method="get" class="row g-3">
+				<div class="col-md-4">
+					<label asp-for="DepartureCityName" class="form-label"></label>
+					<select asp-for="DepartureCityName" asp-items="Model.Cities" class="form-select">
+						<option value="">-- Select Departure City --</option>
+					</select>
+					<span asp-validation-for="DepartureCityName" class="text-danger"></span>
+				</div>
+
+				<div class="col-md-4">
+					<label asp-for="ArrivalCityName" class="form-label"></label>
+					<select asp-for="ArrivalCityName" asp-items="Model.Cities" class="form-select">
+						<option value="">-- Select Arrival City --</option>
+					</select>
+					<span asp-validation-for="ArrivalCityName" class="text-danger"></span>
+				</div>
+
+				<div class="col-md-4">
+					<label asp-for="FlightDate" class="form-label"></label>
+					<input asp-for="FlightDate" value="@Model.FlightDate?.ToString("yyyy-MM-dd")" class="form-control datepicker" type="text" readonly placeholder="Select flight date" />
+					<span asp-validation-for="FlightDate" class="text-danger"></span>
+				</div>
+
+				<div class="col-12 text-end mt-2">
+					<a asp-action="ManageFlights" class="btn btn-outline-secondary me-2">
+						<i class="bi bi-x-circle"></i> Reset
+					</a>
+
+					<button type="submit" class="btn btn-primary">
+						<i class="bi bi-search"></i> Filter
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	@if (Model.Flights.Any())
+	{
+		<div class="card mt-4 shadow-sm">
+			<div class="card-body">
+				<h5 class="card-title mb-3">Filtered Flights</h5>
+				<table class="table table-hover align-middle">
+					<thead class="table-light">
+						<tr>
+							<th>Company</th>
+							<th>Departure</th>
+							<th>Arrival</th>
+							<th>Date</th>
+							<th>Departure Time</th>
+							<th>Duration</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var flight in Model.Flights)
+						{
+							<tr>
+								<td>@flight.CompanyName</td>
+								<td>@flight.DepartureCity</td>
+								<td>@flight.ArrivalCity</td>
+								<td>@flight.FlightDate.ToShortDateString()</td>
+								<td>@flight.DepartureTime.ToString(@"hh\:mm")</td>
+								<td>@flight.Duration.ToString(@"hh\:mm")</td>
+								<td>
+									<span class="badge @(flight.IsCancelled ? "bg-danger" : "bg-success")">
+										@(flight.IsCancelled ? "Cancelled" : "Active")
+									</span>
+								</td>
+								<td>
+
+									<form asp-area="Admin" asp-controller="Flight" asp-action="ConfirmToggleFlightStatus" method="post" class="d-inline">
+										<input type="hidden" name="id" value="@flight.FlightId" />
+										<input type="hidden" name="departureCityName" value="@Model.DepartureCityName" />
+										<input type="hidden" name="arrivalCityName" value="@Model.ArrivalCityName" />
+										<input type="hidden" name="flightDate" value="@Model.FlightDate" />
+
+										<button type="submit" class="btn btn-sm @(flight.IsCancelled ? "btn-outline-success" : "btn-outline-danger")">
+											@(flight.IsCancelled ? "Activate" : "Cancel")
+										</button>
+									</form>
+
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+	else if (Model.FlightDate != null && !string.IsNullOrWhiteSpace(Model.DepartureCityName) && !string.IsNullOrWhiteSpace(Model.ArrivalCityName))
+	{
+		<div class="alert alert-warning text-center">No flights found for the selected filters.</div>
+	}
+</div>
+
+@section Scripts {
+	<script>
+		flatpickr(".datepicker", {
+			altInput: true,
+			altFormat: "F j, Y",
+			dateFormat: "Y-m-d",
+			minDate: "today",
+			locale: {
+				firstDayOfWeek: 1
+			}
+		});
+
+	</script>
+}
+

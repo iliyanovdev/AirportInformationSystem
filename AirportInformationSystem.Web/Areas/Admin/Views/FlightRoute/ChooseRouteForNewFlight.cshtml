@@ -1,0 +1,76 @@
+﻿@using AirportInformationSystem.Web.ViewModels.FlightRoute.Admin
+@model ChooseRouteForNewFlightViewModel
+
+<h2 class="mb-3">Choose Route for New Flight</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label asp-for="DepartureCityName" class="form-label">From</label>
+        <select asp-for="DepartureCityName" asp-items="Model.Cities" class="form-select">
+            <option value="">-- Select Departure City --</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="ArrivalCityName" class="form-label">To</label>
+        <select asp-for="ArrivalCityName" asp-items="Model.Cities" class="form-select">
+            <option value="">-- Select Arrival City --</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="CompanyName" class="form-label">Company</label>
+        <select asp-for="CompanyName" asp-items="Model.Companies" class="form-select">
+            <option value="">-- Select Company --</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label invisible">Search</label>
+        <button type="submit" class="btn btn-primary px-4 w-100">
+            <i class="bi bi-search"></i> Search
+        </button>
+    </div>
+</form>
+
+@if (Model.Routes.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Company</th>
+                <th>Departure Time</th>
+                <th>Duration</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var route in Model.Routes)
+            {
+                <tr>
+                    <td>@route.DepartureCityName</td>
+                    <td>@route.ArrivalCityName</td>
+                    <td>@route.CompanyName</td>
+                    <td>@route.DepartureTime.ToString(@"hh\:mm")</td>
+                    <td>@route.Duration.ToString(@"hh\:mm")</td>
+                    <td>@route.Price €</td>
+                    <td>
+                        <form asp-controller="Flight" asp-action="CreateFlight" method="get">
+                            <input type="hidden" name="routeId" value="@route.FlightRouteId" />
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                            <button type="submit" class="btn btn-sm btn-success">Add Flight</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning text-center">No routes found. Try adjusting your filters.</div>
+}
+

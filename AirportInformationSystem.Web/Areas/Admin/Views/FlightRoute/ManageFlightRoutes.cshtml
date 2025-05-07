@@ -1,0 +1,115 @@
+﻿@using AirportInformationSystem.Web.ViewModels.FlightRoute.Admin
+@model FlightRouteAdminFilterViewModel
+
+@{
+	ViewData["Title"] = "Manage Flight Routes";
+}
+
+<div class="container mt-4">
+	<h2 class="mb-4">Manage Routes</h2>
+
+	<div class="card shadow-sm">
+		<div class="card-body">
+			<form asp-action="ManageFlightRoutes" method="get" class="row g-3">
+				<div class="col-md-6">
+					<label asp-for="DepartureCityName" class="form-label"></label>
+					<select asp-for="DepartureCityName" asp-items="Model.Cities" class="form-select">
+						<option value="">-- Select Departure City --</option>
+					</select>
+					<span asp-validation-for="DepartureCityName" class="text-danger"></span>
+				</div>
+
+				<div class="col-md-6">
+					<label asp-for="ArrivalCityName" class="form-label"></label>
+					<select asp-for="ArrivalCityName" asp-items="Model.Cities" class="form-select">
+						<option value="">-- Select Arrival City --</option>
+					</select>
+					<span asp-validation-for="ArrivalCityName" class="text-danger"></span>
+				</div>
+
+				<div class="col-12 text-end mt-2">
+					<a asp-action="ManageFlightRoutes" class="btn btn-outline-secondary me-2">
+						<i class="bi bi-x-circle"></i> Reset
+					</a>
+
+					<button type="submit" class="btn btn-primary">
+						<i class="bi bi-search"></i> Filter
+					</button>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+
+
+
+	@if (Model.FlightRoutes.Any())
+	{
+		<div class="card mt-4 shadow-sm">
+			<div class="card-body">
+				<h5 class="card-title mb-3">Filtered Routes</h5>
+				<table class="table table-hover align-middle">
+					<thead class="table-light">
+						<tr>
+							<th>Company</th>
+							<th>Departure</th>
+							<th>Arrival</th>
+							<th>Departure Time</th>
+							<th>Duration</th>
+							<th>Status</th>
+							<th>Action</th>
+							<th>Add New Flight</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var route in Model.FlightRoutes)
+						{
+							<tr>
+								<td>@route.CompanyName</td>
+								<td>@route.DepartureCityName</td>
+								<td>@route.ArrivalCityName</td>
+								<td>@route.DepartureTime.ToString(@"hh\:mm")</td>
+								<td>@route.Duration.ToString(@"hh\:mm")</td>
+								<td>
+									<span class="badge @(route.IsCancelled ? "bg-danger" : "bg-success")">
+										@(route.IsCancelled ? "Cancelled" : "Active")
+									</span>
+								</td>
+								<td>
+									<form asp-area="Admin" asp-controller="FlightRoute" asp-action="ConfirmToggleFlightRouteStatus" method="post" class="d-inline">
+										<input type="hidden" name="id" value="@route.FlightRouteId" />
+										<input type="hidden" name="departureCityName" value="@Model.DepartureCityName" />
+										<input type="hidden" name="arrivalCityName" value="@Model.ArrivalCityName" />
+
+										<button type="submit" class="btn btn-sm @(route.IsCancelled ? "btn-outline-success" : "btn-outline-danger")">
+											@(route.IsCancelled ? "Activate" : "Cancel")
+										</button>
+									</form>
+								</td>
+								<td>
+									@if (!route.IsCancelled)
+									{
+										<form asp-area="Admin" asp-controller="Flight" asp-action="CreateFlight" method="get">
+											<input type="hidden" name="routeId" value="@route.FlightRouteId" />
+											<input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+											<button type="submit" class="btn btn-sm btn-success">Add Flight</button>
+										</form>
+									}
+									else
+									{
+										<button type="submit" class="btn btn-sm btn-secondary" disabled>Add Flight</button>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+	else if (!string.IsNullOrWhiteSpace(Model.DepartureCityName) && !string.IsNullOrWhiteSpace(Model.ArrivalCityName))
+	{
+		<div class="alert alert-warning text-center">No flights found for the selected filters.</div>
+	}
+</div>

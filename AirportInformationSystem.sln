@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Web", "AirportInformationSystem.Web\AirportInformationSystem.Web.csproj", "{E92C8B80-5F44-4F4E-8A4A-5F11DAD24211}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Common", "AirportInformationSystem.Common\AirportInformationSystem.Common.csproj", "{7AC8F4A6-36B8-4C86-91AE-9E092719F9CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Web.ViewModels", "AirportInformationSystem.Web.ViewModels\AirportInformationSystem.Web.ViewModels.csproj", "{36991A47-057A-4631-AC2A-0B51CC037515}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{25D442BF-7C25-4D53-B537-31D020E995FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Data.Models", "AirportInformationSystem.Data.Models\AirportInformationSystem.Data.Models.csproj", "{D2AA4A28-5AC0-49F0-9090-91626A75794D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{CFB43F8E-8A17-4E9D-B182-F848E1C39546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Data", "AirportInformationSystem.Data\AirportInformationSystem.Data.csproj", "{3BDB7A53-9F51-43BC-A971-0918702B533E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{41054150-4C36-4FB8-A772-1EB60CA5C9A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Services", "AirportInformationSystem.Services\AirportInformationSystem.Services.csproj", "{CBE50151-B5B6-4F0F-95F1-3BCBBFB11727}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A48EB345-38B1-4D36-8470-EDC44A30BCBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportInformationSystem.Tests", "AirportInformationSystem.Tests\AirportInformationSystem.Tests.csproj", "{59C83A12-3764-4F15-B92E-3BB875A44648}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E92C8B80-5F44-4F4E-8A4A-5F11DAD24211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E92C8B80-5F44-4F4E-8A4A-5F11DAD24211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E92C8B80-5F44-4F4E-8A4A-5F11DAD24211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E92C8B80-5F44-4F4E-8A4A-5F11DAD24211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC8F4A6-36B8-4C86-91AE-9E092719F9CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC8F4A6-36B8-4C86-91AE-9E092719F9CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC8F4A6-36B8-4C86-91AE-9E092719F9CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC8F4A6-36B8-4C86-91AE-9E092719F9CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36991A47-057A-4631-AC2A-0B51CC037515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36991A47-057A-4631-AC2A-0B51CC037515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36991A47-057A-4631-AC2A-0B51CC037515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36991A47-057A-4631-AC2A-0B51CC037515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2AA4A28-5AC0-49F0-9090-91626A75794D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2AA4A28-5AC0-49F0-9090-91626A75794D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2AA4A28-5AC0-49F0-9090-91626A75794D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2AA4A28-5AC0-49F0-9090-91626A75794D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDB7A53-9F51-43BC-A971-0918702B533E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDB7A53-9F51-43BC-A971-0918702B533E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDB7A53-9F51-43BC-A971-0918702B533E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDB7A53-9F51-43BC-A971-0918702B533E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE50151-B5B6-4F0F-95F1-3BCBBFB11727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE50151-B5B6-4F0F-95F1-3BCBBFB11727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE50151-B5B6-4F0F-95F1-3BCBBFB11727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE50151-B5B6-4F0F-95F1-3BCBBFB11727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59C83A12-3764-4F15-B92E-3BB875A44648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C83A12-3764-4F15-B92E-3BB875A44648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C83A12-3764-4F15-B92E-3BB875A44648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C83A12-3764-4F15-B92E-3BB875A44648}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E92C8B80-5F44-4F4E-8A4A-5F11DAD24211} = {25D442BF-7C25-4D53-B537-31D020E995FC}
+		{36991A47-057A-4631-AC2A-0B51CC037515} = {25D442BF-7C25-4D53-B537-31D020E995FC}
+		{D2AA4A28-5AC0-49F0-9090-91626A75794D} = {CFB43F8E-8A17-4E9D-B182-F848E1C39546}
+		{3BDB7A53-9F51-43BC-A971-0918702B533E} = {CFB43F8E-8A17-4E9D-B182-F848E1C39546}
+		{CBE50151-B5B6-4F0F-95F1-3BCBBFB11727} = {41054150-4C36-4FB8-A772-1EB60CA5C9A9}
+		{59C83A12-3764-4F15-B92E-3BB875A44648} = {A48EB345-38B1-4D36-8470-EDC44A30BCBA}
+	EndGlobalSection
+EndGlobal

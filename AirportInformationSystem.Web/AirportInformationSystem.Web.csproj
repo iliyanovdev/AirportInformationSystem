@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-AirportInformationSystem.Web-5f32d416-3fc9-48b1-8adf-298e23dee0aa</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AirportInformationSystem.Common\AirportInformationSystem.Common.csproj" />
+    <ProjectReference Include="..\AirportInformationSystem.Data\AirportInformationSystem.Data.csproj" />
+    <ProjectReference Include="..\AirportInformationSystem.Services\AirportInformationSystem.Services.csproj" />
+    <ProjectReference Include="..\AirportInformationSystem.Web.ViewModels\AirportInformationSystem.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

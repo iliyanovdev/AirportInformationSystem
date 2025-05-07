@@ -1,0 +1,86 @@
+﻿@using AirportInformationSystem.Web.ViewModels.FlightRoute.Admin
+@model ConfirmToggleFlightRouteStatusViewModel
+
+@{
+    ViewData["Title"] = "Confirm Route Status Change";
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-0">
+        <div class="card-header bg-gradient bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="bi bi-exclamation-circle me-2"></i>
+                Confirm @(Model.IsCancelled ? "Activation" : "Cancellation") of Route
+            </h4>
+        </div>
+
+        <div class="card-body px-5 py-4">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-muted">Route Info</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>From:</strong> @Model.DepartureCityName
+                            </li>
+                            <li class="list-group-item">
+                                <strong>To:</strong> @Model.ArrivalCityName
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Company:</strong> @Model.CompanyName
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Price:</strong> @Model.Price.ToString("F2") €
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Aircraft:</strong> @Model.AirplaneModel
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-muted">Schedule & Usage</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Departure Time:</strong> @Model.DepartureTime.ToString(@"hh\:mm")
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Arrival Time:</strong> @Model.ArrivalTime.ToString(@"hh\:mm")
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Duration:</strong> @Model.Duration.ToString(@"hh\:mm")
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Total Flights:</strong> @Model.NumberOfFlights
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Active Flights:</strong> @Model.NumberOfActiveFlights
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="ToggleFlightRouteStatus" method="post" class="d-flex justify-content-between">
+                <input type="hidden" name="id" value="@Model.FlightRouteId" />
+                <input type="hidden" name="departureCityName" value="@Model.FilterDepartureCityName" />
+                <input type="hidden" name="arrivalCityName" value="@Model.FilterArrivalCityName" />
+
+                <a asp-action="ManageFlightRoutes"
+                   asp-route-departureCityName="@Model.FilterDepartureCityName"
+                   asp-route-arrivalCityName="@Model.FilterArrivalCityName"
+                   class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+
+                <button type="submit" class="btn @(Model.IsCancelled ? "btn-success" : "btn-danger")">
+                    <i class="bi @(Model.IsCancelled ? "bi-check-circle" : "bi-x-circle")"></i>
+                    Confirm @(Model.IsCancelled ? "Activation" : "Cancellation")
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>

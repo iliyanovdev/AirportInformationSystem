@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AirportInformationSystem.Common\AirportInformationSystem.Common.csproj" />
+    <ProjectReference Include="..\AirportInformationSystem.Data\AirportInformationSystem.Data.csproj" />
+    <ProjectReference Include="..\AirportInformationSystem.Web.ViewModels\AirportInformationSystem.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

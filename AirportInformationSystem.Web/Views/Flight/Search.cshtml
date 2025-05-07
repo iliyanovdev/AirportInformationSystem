@@ -1,0 +1,250 @@
+﻿@using AirportInformationSystem.Web.ViewModels.Flight
+@model FlightSearchViewModel
+@{
+    ViewData["Title"] = "Flight Search";
+}
+
+<div class="text-center custom-margin-2rem">
+    <h1 class="display-5 fw-bold">Just One Click Away from Your Next Trip</h1>
+    <p class="lead">Browse and purchase tickets to the places you love.</p>
+</div>
+
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Search" method="get" class="row g-3">
+            <div class="col-md-4">
+                <label asp-for="DepartureCityName" class="form-label"></label>
+                <select asp-for="DepartureCityName" asp-items="Model.Cities" class="form-select">
+                    <option value="">-- Select Departure City --</option>
+                </select>
+                <span asp-validation-for="DepartureCityName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="ArrivalCityName" class="form-label"></label>
+                <select asp-for="ArrivalCityName" asp-items="Model.Cities" class="form-select">
+                    <option value="">-- Select Arrival City --</option>
+                </select>
+                <span asp-validation-for="ArrivalCityName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="form-check mt-3">
+                    <input asp-for="IsRoundTrip" class="form-check-input" id="roundTripToggle" />
+                    <label asp-for="IsRoundTrip" class="form-check-label"></label>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="DepartureDate" class="form-label"></label>
+                <input asp-for="DepartureDate" value="@Model.DepartureDate?.ToString("yyyy-MM-dd")" class="form-control" type="text" readonly placeholder="Select departure date" />
+                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4" id="returnDateContainer">
+                <label asp-for="ReturnDate" class="form-label"></label>
+                <input asp-for="ReturnDate" value="@Model.ReturnDate?.ToString("yyyy-MM-dd")" class="form-control" type="text" readonly placeholder="Select return date" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 text-end mt-2">
+                <a asp-action="Search" class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-x-circle"></i> Reset
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.OutboundFlights != null && Model.OutboundFlights.Any())
+{
+    <h3 class="mt-5">Outbound Flights</h3>
+    <p class="text-muted">@Model.DepartureDate?.ToString("MMM d, yyyy")</p>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure Time</th>
+                <th>Duration</th>
+                <th>Arrival Time</th>
+                <th>Price</th>
+                <th>Available Seats</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in Model.OutboundFlights)
+            {
+                <tr>
+                    <td>@flight.CompanyName</td>
+                    <td>@flight.DepartureCity</td>
+                    <td>@flight.ArrivalCity</td>
+                    <td>@flight.DepartureTime.ToString(@"hh\:mm")</td>
+                    <td>@flight.Duration.ToString(@"hh\:mm")</td>
+                    <td>@flight.ArrivalTime.ToString(@"hh\:mm")</td>
+                    <td>@flight.Price.ToString("F2") €</td>
+                    <td>@flight.AvailableSeats</td>
+                    <td>
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            if (!flight.UserAlreadyHasTicket)
+                            {
+                                <a asp-controller="Ticket"
+                                   asp-action="ConfirmBuy"
+                                   asp-route-flightId="@flight.FlightId"
+                                   asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                                   class="btn btn-sm btn-success">Buy</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    <i class="bi bi-check2-circle me-1"></i> Already purchased
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <a href="~/Identity/Account/Login?returnUrl=@Context.Request.Path" class="btn btn-outline-primary">Login to Buy</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.DepartureDate.HasValue && !string.IsNullOrWhiteSpace(Model.DepartureCityName) && !string.IsNullOrWhiteSpace(Model.ArrivalCityName))
+{
+    <h3 class="mt-5">Outbound Flights</h3>
+    <div class="alert alert-warning text-center mt-3">No outbound flights found for the selected filters.</div>
+}
+
+@if (Model.IsRoundTrip && Model.ReturnFlights != null && Model.ReturnFlights.Any())
+{
+    <h3 class="mt-5">Return Flights</h3>
+    <p class="text-muted">@Model.ReturnDate?.ToString("MMM d, yyyy")</p>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure Time</th>
+                <th>Duration</th>
+                <th>Arrival Time</th>
+                <th>Price</th>
+                <th>Available Seats</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in Model.ReturnFlights)
+            {
+                <tr>
+                    <td>@flight.CompanyName</td>
+                    <td>@flight.DepartureCity</td>
+                    <td>@flight.ArrivalCity</td>
+                    <td>@flight.DepartureTime.ToString(@"hh\:mm")</td>
+                    <td>@flight.Duration.ToString(@"hh\:mm")</td>
+                    <td>@flight.ArrivalTime.ToString(@"hh\:mm")</td>
+                    <td>@flight.Price.ToString("F2") €</td>
+                    <td>@flight.AvailableSeats</td>
+                    <td>
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            if (!flight.UserAlreadyHasTicket)
+                            {
+                                <a asp-controller="Ticket"
+                                   asp-action="ConfirmBuy"
+                                   asp-route-flightId="@flight.FlightId"
+                                   asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                                   class="btn btn-sm btn-success">Buy</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    <i class="bi bi-check2-circle me-1"></i> Already purchased
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <a href="~/Identity/Account/Login?returnUrl=@Context.Request.Path" class="btn btn-outline-primary">Login to Buy</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.IsRoundTrip && Model.ReturnDate != null && Model.ReturnFlights != null && !Model.ReturnFlights.Any())
+{
+    <h3 class="mt-5">Return Flights</h3>
+    <div class="alert alert-warning text-center mt-3">No return flights found for the selected filters.</div>
+}
+
+@section Scripts {
+    <script>
+        const departurePicker = flatpickr("input[name='DepartureDate']", {
+            altInput: true,
+            altFormat: "F j, Y",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            locale: {
+                firstDayOfWeek: 1
+            },
+            onChange: function (selectedDates, dateStr, instance) {
+                if (selectedDates.length > 0) {
+                    returnPicker.set('minDate', dateStr);
+                }
+            }
+        });
+
+        const returnPicker = flatpickr("input[name='ReturnDate']", {
+            altInput: true,
+            altFormat: "F j, Y",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            locale: {
+                firstDayOfWeek: 1
+            },
+            onChange: function (selectedDates, dateStr, instance) {
+                if (selectedDates.length > 0) {
+                    departurePicker.set('maxDate', dateStr);
+                }
+            }
+        });
+    </script>
+    <script>
+        const roundTripToggle = document.getElementById("roundTripToggle");
+        const returnDateContainer = document.getElementById("returnDateContainer");
+
+        function toggleReturnDateVisibility() {
+            if (roundTripToggle.checked) {
+                returnDateContainer.style.display = "block";
+            } else {
+                returnDateContainer.style.display = "none";
+                document.querySelector("input[name='ReturnDate']").value = "";
+            }
+        }
+
+        toggleReturnDateVisibility();
+
+        roundTripToggle.addEventListener("change", toggleReturnDateVisibility);
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('select.form-select').select2({
+                theme: 'bootstrap-5',
+                placeholder: "Select City",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+}
+

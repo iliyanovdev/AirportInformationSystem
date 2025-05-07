@@ -1,0 +1,80 @@
+﻿@using AirportInformationSystem.Web.ViewModels.Flight.Admin
+@model CreateFlightViewModel
+
+@{
+	ViewData["Title"] = "Add New Flight";
+}
+
+<div class="container mt-5">
+	<h2 class="text-center mb-4">Add New Flight</h2>
+	<div class="row justify-content-center">
+		<div class="col-md-10 col-lg-8">
+			<div class="card shadow rounded-4 border-0">
+				<div class="card-body px-4 py-5">
+
+					<div class="mb-3">
+						<h5 class="text-primary">
+							@Model.DepartureCityName, @Model.DepartureCountryName
+							<span>
+								<i class="bi bi-arrow-right"></i>
+							</span>
+							@Model.ArrivalCityName, @Model.ArrivalCountryName
+						</h5>
+						<p><strong>Company:</strong> @Model.CompanyName</p>
+						<p><strong>Departure Time:</strong> @Model.DepartureTime.ToString(@"hh\:mm")</p>
+						<p><strong>Duration:</strong> @Model.FlightDuration.ToString(@"hh\:mm")</p>
+						<p><strong>Arrival Time:</strong> @Model.ArrivalTime.ToString(@"hh\:mm")</p>
+						<p><strong>Price:</strong> @Model.Price.ToString("F2") €</p>
+					</div>
+
+					<form asp-action="CreateFlight" method="post">
+						<input type="hidden" name="FlightRouteId" value="@Model.FlightRouteId" />
+						<input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+						<div class="mb-3">
+							<label asp-for="FlightDate" class="form-label"><strong>Flight Date:</strong></label>
+							<input asp-for="FlightDate" value="@Model.FlightDate.ToString("yyyy-MM-dd")" class="form-control datepicker" type="text" readonly placeholder="Select flight date" />
+							<span asp-validation-for="FlightDate" class="text-danger"></span>
+							<small class="text-muted">Default is today. Please change if needed.</small>
+						</div>
+
+						@if (ViewData.ModelState.ContainsKey("") && ViewData?.ModelState?[""]?.Errors.Count > 0)
+						{
+							<div class="alert alert-danger alert-dismissible fade show mt-3">
+								@ViewData?.ModelState?[""]?.Errors[0].ErrorMessage
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						}
+
+						<hr class="my-4" />
+
+						<div class="d-flex justify-content-between">
+							<a href="@ViewBag.ReturnUrl" class="btn btn-outline-secondary ms-2">
+								<i class="bi bi-arrow-left"></i> Back
+							</a>
+							<button type="submit" class="btn btn-success px-4">
+								<i class="bi bi-plus-circle me-2"></i> Add Flight
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		flatpickr(".datepicker", {
+			altInput: true,
+			altFormat: "F j, Y",
+			dateFormat: "Y-m-d",
+			minDate: "today",
+			locale: {
+				firstDayOfWeek: 1
+			}
+		});
+
+	</script>
+}
+
